@@ -9,6 +9,7 @@ from shapes import SHAPES
 BLUE = (0, 0, 155)
 WHITE = (255, 255, 255)
 GREY = (217, 222, 226)
+BLACK = (0, 0, 0)
 BOX_SIZE = 20
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
@@ -17,12 +18,10 @@ BOARD_HEIGHT = 20
 
 def create_board():
     ''' Create a 10x20 board with all empty spaces. '''
-    board_columns = 10
-    board_rows = 20
     board = []
-    for _ in range(board_rows):
+    for _ in range(BOARD_HEIGHT):
         new_row = []
-        for _ in range(board_columns):
+        for _ in range(BOARD_WIDTH):
             new_row.append('.')
         board.append(new_row)
     return board
@@ -136,14 +135,14 @@ def game():
     #clock = pg.time.Clock()
     score = 0
     while True:
-        screen.fill((0, 0, 0))
+        screen.fill((BLACK))
 
         if time.time() - last_move > 0.5:
             piece['row'] += 1
             last_move = time.time()
 
         draw_shape(screen, piece)
-        pg.draw.rect(screen, BLUE, [100, 50, 10 * 20 + 10, 20 * 20 + 10], 5)
+        pg.draw.rect(screen, BLUE, [100, 50, BOARD_WIDTH * BOX_SIZE + 10, BOARD_HEIGHT * BOX_SIZE + 10], 5)
 
         draw_board(screen, game_board)
         print_score(screen, score)
