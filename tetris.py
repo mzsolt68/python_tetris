@@ -77,10 +77,6 @@ def position_valid(board, piece, adj_row=0, adj_column=0):
                 return False
             if board[row + piece['row'] + adj_row][column + piece['column'] + adj_column] != '.':
                 return False
-    # if not(0 <= column < BOARD_WIDTH and row < BOARD_HEIGHT):
-    #     return False
-    # if board[row][column] != '.':
-    #     return False
     return True
 
 def check_keypress(board, piece):
