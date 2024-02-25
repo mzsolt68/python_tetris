@@ -76,30 +76,9 @@ def check_keypress(board: GameBoard, piece: Piece):
                 if not position_valid(board, piece):
                     piece.rotation = (piece.rotation - 1) % len(piece.shape)
 
-def is_line_complete(board: GameBoard, row):
-    ''' Check, if the line is complete '''
-    for column in range(board.width):
-        if board.board[row][column] == '.':
-            return False
-    return True
-
-def remove_line(board: GameBoard, row):
-    ''' Remove the line from the board. '''
-    del board.board[row]
-    board.board.insert(0, ['.'] * BOARD_WIDTH)
-
 def is_on_board(row, column):
     ''' Check, if the position is on the board. '''
     return 0 <= column < BOARD_WIDTH and row < BOARD_HEIGHT
-
-def remove_complete_lines(board: GameBoard):
-    ''' Remove all complete lines from the board. '''
-    lines_removed = 0
-    for row in range(board.height):
-        if is_line_complete(board, row):
-            remove_line(board, row)
-            lines_removed += 1
-    return lines_removed
 
 def print_score(screen, score):
     ''' Print the score on the screen. '''
@@ -112,7 +91,6 @@ def game():
     pg.init()
     screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pg.display.set_caption('Tetris')
-    #game_board = create_board()
     game_board = GameBoard(BOARD_WIDTH, BOARD_HEIGHT)
     piece = Piece()
     last_move = time.time()
@@ -133,9 +111,8 @@ def game():
         check_keypress(game_board, piece)
 
         if not position_valid(game_board, piece, adj_row=1):
-            #game_board = update_board(game_board, piece)
             game_board.update(piece)
-            removed_lines = remove_complete_lines(game_board)
+            removed_lines = game_board.remove_complete_lines()
             score += removed_lines
             piece = Piece()
 
