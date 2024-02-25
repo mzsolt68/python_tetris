@@ -8,7 +8,6 @@ from board import GameBoard
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-BOX_SIZE = 20
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 BOARD_WIDTH = 10
