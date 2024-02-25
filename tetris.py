@@ -33,15 +33,13 @@ def check_keypress(board: GameBoard, piece: Piece):
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_LEFT and \
                 position_valid(board, piece, adj_column=-1):
-                piece.column -= 1
+                piece.move_left()
             elif event.key == pg.K_RIGHT and \
                 position_valid(board, piece, adj_column=1):
-                piece.column += 1
+                piece.move_right()
             elif event.key == pg.K_UP:
-                #piece.rotation = (piece.rotation + 1) % len(piece.shape)
                 piece.rotate()
                 if not position_valid(board, piece):
-                    #piece.rotation = (piece.rotation - 1) % len(piece.shape)
                     piece.rotate_back()
 
 def is_on_board(row, column):

@@ -22,3 +22,11 @@ class Piece:
     def rotate_back(self):
         ''' Rotate the piece backward. '''
         self.rotation = (self.rotation - 1) % len(self.shape)
+
+    def move_left(self):
+        ''' Move the piece left. '''
+        self.column -= 1
+
+    def move_right(self):
+        ''' Move the piece right. '''
+        self.column += 1
