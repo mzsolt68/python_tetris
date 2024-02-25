@@ -5,6 +5,7 @@ import sys
 import random
 import pygame as pg
 from shapes import SHAPES
+from piece import Piece
 
 BLUE = (0, 0, 155)
 WHITE = (255, 255, 255)
@@ -42,20 +43,20 @@ def draw_a_box(screen, row, column, color, border_color):
     pg.draw.rect(screen, border_color, [origin_x, origin_y, BOX_SIZE, BOX_SIZE])
     pg.draw.rect(screen, color, [origin_x, origin_y, BOX_SIZE - 2, BOX_SIZE - 2])
 
-def draw_shape(screen, piece):
+def draw_shape(screen, piece: Piece):
     ''' Draw the piece on the screen. '''
-    shape_to_draw = SHAPES[piece['shape']][piece['rotation']]
+    shape_to_draw = piece.shape[piece.rotation]
     for row in range(5):
         for column in range(5):
             if shape_to_draw[row][column] == 'x':
-                draw_a_box(screen, piece['row'] + row, piece['column'] + column, WHITE, GREY)
+                draw_a_box(screen, piece.row + row, piece.column + column, WHITE, GREY)
 
-def update_board(board, piece):
+def update_board(board, piece: Piece):
     ''' Update the board with the piece. '''
     for row in range(5):
         for column in range(5):
-            if SHAPES[piece['shape']][piece['rotation']][row][column] == 'x':
-                board[piece['row'] + row][piece['column'] + column] = 'x'
+            if piece.shape[piece.rotation][row][column] == 'x':
+                board[piece.row + row][piece.column + column] = 'x'
     return board
 
 def draw_board(screen, board):
@@ -65,33 +66,33 @@ def draw_board(screen, board):
             if board[row][column] == 'x':
                 draw_a_box(screen, row, column, WHITE, GREY)
 
-def position_valid(board, piece, adj_row=0, adj_column=0):
+def position_valid(board, piece: Piece, adj_row=0, adj_column=0):
     ''' Check, if the position of the piece is valid. '''
-    shape_matrix = SHAPES[piece['shape']][piece['rotation']]
+    shape_matrix = piece.shape[piece.rotation]
     for row in range(5):
         for column in range(5):
             if shape_matrix[row][column] == '.':
                 continue
-            if not is_on_board(piece['row'] + row + adj_row, piece['column'] + column + adj_column):
+            if not is_on_board(piece.row + row + adj_row, piece.column + column + adj_column):
                 return False
-            if board[row + piece['row'] + adj_row][column + piece['column'] + adj_column] != '.':
+            if board[row + piece.row + adj_row][column + piece.column + adj_column] != '.':
                 return False
     return True
 
-def check_keypress(board, piece):
+def check_keypress(board, piece: Piece):
     ''' Check, if user pressed a key. '''
     for event in pg.event.get():
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_LEFT and \
                 position_valid(board, piece, adj_column=-1):
-                piece['column'] -= 1
+                piece.column -= 1
             elif event.key == pg.K_RIGHT and \
                 position_valid(board, piece, adj_column=1):
-                piece['column'] += 1
+                piece.column += 1
             elif event.key == pg.K_UP:
-                piece['rotation'] = (piece['rotation'] + 1) % len(SHAPES[piece['shape']])
+                piece.rotation = (piece.rotation + 1) % len(piece.shape)
                 if not position_valid(board, piece):
-                    piece['rotation'] = (piece['rotation'] - 1) % len(SHAPES[piece['shape']])
+                    piece.rotation = (piece.rotation - 1) % len(piece.shape)
 
 def is_line_complete(board, row):
     ''' Check, if the line is complete '''
@@ -130,7 +131,7 @@ def game():
     screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pg.display.set_caption('Tetris')
     game_board = create_board()
-    piece = create_piece()
+    piece = Piece()
     last_move = time.time()
     #clock = pg.time.Clock()
     score = 0
@@ -138,7 +139,7 @@ def game():
         screen.fill((BLACK))
 
         if time.time() - last_move > 0.5:
-            piece['row'] += 1
+            piece.row += 1
             last_move = time.time()
 
         draw_shape(screen, piece)
@@ -152,7 +153,7 @@ def game():
             game_board = update_board(game_board, piece)
             removed_lines = remove_complete_lines(game_board)
             score += removed_lines
-            piece = create_piece()
+            piece = Piece()
 
         pg.display.update()
         for _ in pg.event.get(pg.QUIT):
