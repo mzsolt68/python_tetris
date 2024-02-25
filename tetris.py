@@ -4,6 +4,7 @@ import time
 import sys
 import pygame as pg
 from piece import Piece
+from board import GameBoard
 
 BLUE = (0, 0, 155)
 WHITE = (255, 255, 255)
@@ -40,22 +41,14 @@ def draw_shape(screen, piece: Piece):
             if shape_to_draw[row][column] == 'x':
                 draw_a_box(screen, piece.row + row, piece.column + column, WHITE, GREY)
 
-def update_board(board, piece: Piece):
-    ''' Update the board with the piece. '''
-    for row in range(5):
-        for column in range(5):
-            if piece.shape[piece.rotation][row][column] == 'x':
-                board[piece.row + row][piece.column + column] = 'x'
-    return board
-
-def draw_board(screen, board):
+def draw_board(screen, board: GameBoard):
     ''' Draw the actual board on the screen. '''
-    for row in range(BOARD_HEIGHT):
-        for column in range(BOARD_WIDTH):
-            if board[row][column] == 'x':
+    for row in range(board.height):
+        for column in range(board.width):
+            if board.board[row][column] == 'x':
                 draw_a_box(screen, row, column, WHITE, GREY)
 
-def position_valid(board, piece: Piece, adj_row=0, adj_column=0):
+def position_valid(board: GameBoard, piece: Piece, adj_row=0, adj_column=0):
     ''' Check, if the position of the piece is valid. '''
     shape_matrix = piece.shape[piece.rotation]
     for row in range(5):
@@ -64,11 +57,11 @@ def position_valid(board, piece: Piece, adj_row=0, adj_column=0):
                 continue
             if not is_on_board(piece.row + row + adj_row, piece.column + column + adj_column):
                 return False
-            if board[row + piece.row + adj_row][column + piece.column + adj_column] != '.':
+            if board.board[row + piece.row + adj_row][column + piece.column + adj_column] != '.':
                 return False
     return True
 
-def check_keypress(board, piece: Piece):
+def check_keypress(board: GameBoard, piece: Piece):
     ''' Check, if user pressed a key. '''
     for event in pg.event.get():
         if event.type == pg.KEYDOWN:
@@ -83,26 +76,26 @@ def check_keypress(board, piece: Piece):
                 if not position_valid(board, piece):
                     piece.rotation = (piece.rotation - 1) % len(piece.shape)
 
-def is_line_complete(board, row):
+def is_line_complete(board: GameBoard, row):
     ''' Check, if the line is complete '''
-    for column in range(BOARD_WIDTH):
-        if board[row][column] == '.':
+    for column in range(board.width):
+        if board.board[row][column] == '.':
             return False
     return True
 
-def remove_line(board, row):
+def remove_line(board: GameBoard, row):
     ''' Remove the line from the board. '''
-    del board[row]
-    board.insert(0, ['.'] * BOARD_WIDTH)
+    del board.board[row]
+    board.board.insert(0, ['.'] * BOARD_WIDTH)
 
 def is_on_board(row, column):
     ''' Check, if the position is on the board. '''
     return 0 <= column < BOARD_WIDTH and row < BOARD_HEIGHT
 
-def remove_complete_lines(board):
+def remove_complete_lines(board: GameBoard):
     ''' Remove all complete lines from the board. '''
     lines_removed = 0
-    for row in range(BOARD_HEIGHT):
+    for row in range(board.height):
         if is_line_complete(board, row):
             remove_line(board, row)
             lines_removed += 1
@@ -119,7 +112,8 @@ def game():
     pg.init()
     screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pg.display.set_caption('Tetris')
-    game_board = create_board()
+    #game_board = create_board()
+    game_board = GameBoard(BOARD_WIDTH, BOARD_HEIGHT)
     piece = Piece()
     last_move = time.time()
     #clock = pg.time.Clock()
@@ -139,7 +133,8 @@ def game():
         check_keypress(game_board, piece)
 
         if not position_valid(game_board, piece, adj_row=1):
-            game_board = update_board(game_board, piece)
+            #game_board = update_board(game_board, piece)
+            game_board.update(piece)
             removed_lines = remove_complete_lines(game_board)
             score += removed_lines
             piece = Piece()
