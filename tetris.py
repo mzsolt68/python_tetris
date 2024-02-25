@@ -16,16 +16,6 @@ SCREEN_HEIGHT = 480
 BOARD_WIDTH = 10
 BOARD_HEIGHT = 20
 
-def create_board():
-    ''' Create a 10x20 board with all empty spaces. '''
-    board = []
-    for _ in range(BOARD_HEIGHT):
-        new_row = []
-        for _ in range(BOARD_WIDTH):
-            new_row.append('.')
-        board.append(new_row)
-    return board
-
 def draw_a_box(screen, row, column, color, border_color):
     ''' Draw a box on the screen. '''
     origin_x = 100 + 5 + (column * BOX_SIZE + 1)
