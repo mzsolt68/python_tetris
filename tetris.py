@@ -2,9 +2,7 @@
 
 import time
 import sys
-import random
 import pygame as pg
-from shapes import SHAPES
 from piece import Piece
 
 BLUE = (0, 0, 155)
