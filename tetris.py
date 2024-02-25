@@ -27,15 +27,6 @@ def create_board():
         board.append(new_row)
     return board
 
-def create_piece():
-    ''' Create a new piece at the top of the board. '''
-    piece = {}
-    piece['rotation'] = 0
-    piece['shape'] = random.choice(list(SHAPES.keys()))
-    piece['row'] = 0
-    piece['column'] = 2
-    return piece
-
 def draw_a_box(screen, row, column, color, border_color):
     ''' Draw a box on the screen. '''
     origin_x = 100 + 5 + (column * BOX_SIZE + 1)
