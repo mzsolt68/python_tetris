@@ -1,6 +1,6 @@
 ''' This module contains the GameBoard class. '''
 
-from pygame import Surface, draw
+from pygame import Surface, draw, font
 from piece import Piece
 
 WHITE = (255, 255, 255)
@@ -15,6 +15,8 @@ class GameBoard:
         self.height = height
         self.board = [['.' for _ in range(self.width)] for _ in range(self.height)]
         self.screen = screen
+        self.score = 0
+        self.font = font.Font(None, 36)
 
     def update(self, piece: Piece):
         ''' Update the board with the piece. '''
@@ -35,14 +37,14 @@ class GameBoard:
         del self.board[row]
         self.board.insert(0, ['.'] * self.width)
 
-    def remove_complete_lines(self) -> int:
+    def remove_complete_lines(self):
         ''' Remove all complete lines from the board. '''
         lines_removed = 0
         for row in range(self.height):
             if self.is_line_complete(row):
                 self.remove_line(row)
                 lines_removed += 1
-        return lines_removed
+        self.score += lines_removed
 
     def draw(self):
         ''' Draw the board on the screen. '''
@@ -69,3 +71,8 @@ class GameBoard:
     def draw_frame(self):
         ''' Draw the frame on the screen. '''
         draw.rect(self.screen, BLUE, [100, 50, self.width * BOX_SIZE + 10, self.height * BOX_SIZE + 10], 5)
+
+    def print_score(self):
+        ''' Print the score on the screen. '''
+        text = self.font.render("Score: " + str(self.score), True, WHITE)
+        self.screen.blit(text, (250, 10))

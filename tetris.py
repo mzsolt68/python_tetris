@@ -46,12 +46,6 @@ def is_on_board(row, column):
     ''' Check, if the position is on the board. '''
     return 0 <= column < BOARD_WIDTH and row < BOARD_HEIGHT
 
-def print_score(screen, score):
-    ''' Print the score on the screen. '''
-    font = pg.font.Font(None, 36)
-    text = font.render("Score: " + str(score), True, WHITE)
-    screen.blit(text, (250, 10))
-
 def game():
     ''' Main game loop. '''
     pg.init()
@@ -73,13 +67,12 @@ def game():
         game_board.draw_shape(piece)
 
         game_board.draw()
-        print_score(screen, score)
+        game_board.print_score()
         check_keypress(game_board, piece)
 
         if not position_valid(game_board, piece, adj_row=1):
             game_board.update(piece)
-            removed_lines = game_board.remove_complete_lines()
-            score += removed_lines
+            game_board.remove_complete_lines()
             piece = Piece()
 
         pg.display.update()
