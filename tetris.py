@@ -6,37 +6,13 @@ import pygame as pg
 from piece import Piece
 from board import GameBoard
 
-BLUE = (0, 0, 155)
 WHITE = (255, 255, 255)
-GREY = (217, 222, 226)
 BLACK = (0, 0, 0)
 BOX_SIZE = 20
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 BOARD_WIDTH = 10
 BOARD_HEIGHT = 20
-
-def draw_a_box(screen, row, column, color, border_color):
-    ''' Draw a box on the screen. '''
-    origin_x = 100 + 5 + (column * BOX_SIZE + 1)
-    origin_y = 50 + 5 + (row * BOX_SIZE + 1)
-    pg.draw.rect(screen, border_color, [origin_x, origin_y, BOX_SIZE, BOX_SIZE])
-    pg.draw.rect(screen, color, [origin_x, origin_y, BOX_SIZE - 2, BOX_SIZE - 2])
-
-def draw_shape(screen, piece: Piece):
-    ''' Draw the piece on the screen. '''
-    shape_to_draw = piece.shape[piece.rotation]
-    for row in range(5):
-        for column in range(5):
-            if shape_to_draw[row][column] == 'x':
-                draw_a_box(screen, piece.row + row, piece.column + column, WHITE, GREY)
-
-def draw_board(screen, board: GameBoard):
-    ''' Draw the actual board on the screen. '''
-    for row in range(board.height):
-        for column in range(board.width):
-            if board.board[row][column] == 'x':
-                draw_a_box(screen, row, column, WHITE, GREY)
 
 def position_valid(board: GameBoard, piece: Piece, adj_row=0, adj_column=0):
     ''' Check, if the position of the piece is valid. '''
@@ -81,7 +57,7 @@ def game():
     pg.init()
     screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pg.display.set_caption('Tetris')
-    game_board = GameBoard(BOARD_WIDTH, BOARD_HEIGHT)
+    game_board = GameBoard(screen, BOARD_WIDTH, BOARD_HEIGHT)
     piece = Piece()
     last_move = time.time()
     #clock = pg.time.Clock()
@@ -93,10 +69,10 @@ def game():
             piece.row += 1
             last_move = time.time()
 
-        draw_shape(screen, piece)
-        pg.draw.rect(screen, BLUE, [100, 50, BOARD_WIDTH * BOX_SIZE + 10, BOARD_HEIGHT * BOX_SIZE + 10], 5)
+        game_board.draw_frame()
+        game_board.draw_shape(piece)
 
-        draw_board(screen, game_board)
+        game_board.draw()
         print_score(screen, score)
         check_keypress(game_board, piece)
 
