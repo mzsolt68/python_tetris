@@ -38,9 +38,11 @@ def check_keypress(board: GameBoard, piece: Piece):
                 position_valid(board, piece, adj_column=1):
                 piece.column += 1
             elif event.key == pg.K_UP:
-                piece.rotation = (piece.rotation + 1) % len(piece.shape)
+                #piece.rotation = (piece.rotation + 1) % len(piece.shape)
+                piece.rotate()
                 if not position_valid(board, piece):
-                    piece.rotation = (piece.rotation - 1) % len(piece.shape)
+                    #piece.rotation = (piece.rotation - 1) % len(piece.shape)
+                    piece.rotate_back()
 
 def is_on_board(row, column):
     ''' Check, if the position is on the board. '''
@@ -66,7 +68,7 @@ def game():
         screen.fill((BLACK))
 
         if time.time() - last_move > 0.5:
-            piece.row += 1
+            piece.move_down()
             last_move = time.time()
 
         game_board.draw_frame()
