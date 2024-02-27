@@ -29,6 +29,9 @@ def position_valid(board: GameBoard, piece: Piece, adj_row=0, adj_column=0):
 def check_keypress(board: GameBoard, piece: Piece):
     ''' Check, if user pressed a key. '''
     for event in pg.event.get():
+        if event.type == pg.QUIT:
+            pg.quit()
+            sys.exit()
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_LEFT and \
                 position_valid(board, piece, adj_column=-1):
@@ -75,10 +78,10 @@ def game():
             piece = Piece()
 
         pg.display.update()
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
-                sys.exit()
+        # for event in pg.event.get():
+        #     if event.type == pg.QUIT:
+        #         pg.quit()
+        #         sys.exit()
 
         #clock.tick(10)
 
