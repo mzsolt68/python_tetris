@@ -75,9 +75,10 @@ def game():
             piece = Piece()
 
         pg.display.update()
-        for _ in pg.event.get(pg.QUIT):
-            pg.quit()
-            sys.exit()
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
 
         #clock.tick(10)
 
