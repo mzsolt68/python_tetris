@@ -5,9 +5,8 @@ import sys
 import pygame as pg
 from piece import Piece
 from board import GameBoard
+import gamecolors as colors
 
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 BOARD_WIDTH = 10
@@ -59,7 +58,7 @@ def game():
     #clock = pg.time.Clock()
     score = 0
     while True:
-        screen.fill((BLACK))
+        screen.fill((colors.BLACK))
 
         if time.time() - last_move > 0.5:
             piece.move_down()

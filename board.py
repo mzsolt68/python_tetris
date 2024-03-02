@@ -2,10 +2,8 @@
 
 from pygame import Surface, draw, font
 from piece import Piece
+import gamecolors as colors
 
-WHITE = (255, 255, 255)
-GREY = (217, 222, 226)
-BLUE = (0, 0, 155)
 BOX_SIZE = 20
 
 class GameBoard:
@@ -51,7 +49,7 @@ class GameBoard:
         for row in range(self.height):
             for column in range(self.width):
                 if self.board[row][column] == 'x':
-                    self.draw_a_box(row, column, WHITE, GREY)
+                    self.draw_a_box(row, column, colors.WHITE, colors.GREY)
 
     def draw_a_box(self, row: int, column: int, color: tuple, border_color: tuple):
         ''' Draw a single box on the screen. '''
@@ -66,13 +64,13 @@ class GameBoard:
         for row in range(5):
             for column in range(5):
                 if shape_to_draw[row][column] == 'x':
-                    self.draw_a_box(piece.row + row, piece.column + column, WHITE, GREY)
+                    self.draw_a_box(piece.row + row, piece.column + column, colors.WHITE, colors.GREY)
 
     def draw_frame(self):
         ''' Draw the frame on the screen. '''
-        draw.rect(self.screen, BLUE, [100, 50, self.width * BOX_SIZE + 10, self.height * BOX_SIZE + 10], 5)
+        draw.rect(self.screen, colors.BLUE, [100, 50, self.width * BOX_SIZE + 10, self.height * BOX_SIZE + 10], 5)
 
     def print_score(self):
         ''' Print the score on the screen. '''
-        text = self.font.render("Score: " + str(self.score), True, WHITE)
+        text = self.font.render("Score: " + str(self.score), True, colors.WHITE)
         self.screen.blit(text, (250, 10))
