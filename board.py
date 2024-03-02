@@ -81,3 +81,20 @@ class GameBoard:
         ''' Print the score on the screen. '''
         text = self.font.render("Score: " + str(self.score), True, colors.WHITE)
         self.screen.blit(text, (250, 10))
+
+    def is_position_valid(self, piece: Piece, adj_row=0, adj_column=0) -> bool:
+        ''' Check, if the position is valid. '''
+        shape_matrix = piece.shape[piece.rotation]
+        for row in range(5):
+            for column in range(5):
+                if shape_matrix[row][column] == '.':
+                    continue
+                if not self.is_on_board(piece.row + row + adj_row, piece.column + column + adj_column):
+                    return False
+                if self.board[row + piece.row + adj_row][column + piece.column + adj_column].state != '.':
+                    return False
+        return True
+
+    def is_on_board(self, row, column) -> bool:
+        ''' Check, if the position is on the board. '''
+        return 0 <= column < self.width and row < self.height
