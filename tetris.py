@@ -39,7 +39,6 @@ def game():
     piece = Piece()
     last_move = time.time()
     #clock = pg.time.Clock()
-    score = 0
     while True:
         screen.fill((colors.BLACK))
 
