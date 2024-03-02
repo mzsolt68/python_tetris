@@ -21,7 +21,7 @@ def position_valid(board: GameBoard, piece: Piece, adj_row=0, adj_column=0):
                 continue
             if not is_on_board(piece.row + row + adj_row, piece.column + column + adj_column):
                 return False
-            if board.board[row + piece.row + adj_row][column + piece.column + adj_column] != '.':
+            if board.board[row + piece.row + adj_row][column + piece.column + adj_column].state != '.':
                 return False
     return True
 
