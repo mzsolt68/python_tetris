@@ -7,7 +7,9 @@ class Piece:
     ''' A class to represent a falling piece in the game. '''
     def __init__(self):
         self.rotation = 0
-        self.shape = SHAPES[random.choice(list(SHAPES.keys()))]
+        choice = random.choice(list(SHAPES.keys()))
+        self.shape = SHAPES[choice]['shape']
+        self.color = SHAPES[choice]['color']
         self.row = 0
         self.column = 2
 

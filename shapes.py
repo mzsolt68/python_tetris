@@ -1,4 +1,5 @@
 ''' Definitions of the shapes of the game'''
+import gamecolors as colors
 
 S_SHAPE = [['.....',
             '.....',
@@ -95,10 +96,26 @@ T_SHAPE = [['.....',
              '..xx.',
              '..x..',
              '.....']]
-SHAPES = {'S': S_SHAPE,
-          'I': I_SHAPE,
-          'O': O_SHAPE,
-          'Z': Z_SHAPE,
-          'J': J_SHAPE,
-          'L': L_SHAPE,
-          'T': T_SHAPE}
+SHAPES = {
+    'S': 
+        {"shape": S_SHAPE,
+         "color": colors.GREEN},
+    'I': 
+        {"shape": I_SHAPE,
+         "color": colors.WHITE},
+    'O':
+        {"shape": O_SHAPE,
+         "color": colors.YELLOW},
+    'Z':
+        {"shape": Z_SHAPE,
+         "color": colors.RED},
+    'J':
+        {"shape": J_SHAPE,
+         "color": colors.LIGHT_BLUE},
+    'L':
+        {"shape":   L_SHAPE,
+         "color": colors.ORANGE},
+    'T':
+        {"shape": T_SHAPE,
+         "color": colors.PURPLE}
+}
