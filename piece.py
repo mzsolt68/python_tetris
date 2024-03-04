@@ -12,6 +12,7 @@ class Piece:
         self.color = SHAPES[choice]['color']
         self.row = 0
         self.column = 2
+        self.drop_speed = 0.5
 
     def move_down(self):
         ''' Move the piece down. '''

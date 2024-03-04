@@ -29,6 +29,8 @@ def check_keypress(board: GameBoard, piece: Piece):
                 piece.rotate()
                 if not board.is_position_valid(piece):
                     piece.rotate_back()
+            elif event.key == pg.K_DOWN:
+                piece.drop_speed = 0.03
 
 def game():
     ''' Main game loop. '''
@@ -41,7 +43,7 @@ def game():
     while True:
         screen.fill((colors.BLACK))
 
-        if time.time() - last_move > 0.3:
+        if time.time() - last_move > piece.drop_speed:
             piece.move_down()
             last_move = time.time()
 
