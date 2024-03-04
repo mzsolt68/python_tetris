@@ -38,11 +38,10 @@ def game():
     game_board = GameBoard(screen, BOARD_WIDTH, BOARD_HEIGHT)
     piece = Piece()
     last_move = time.time()
-    #clock = pg.time.Clock()
     while True:
         screen.fill((colors.BLACK))
 
-        if time.time() - last_move > 0.5:
+        if time.time() - last_move > 0.3:
             piece.move_down()
             last_move = time.time()
 
@@ -59,7 +58,6 @@ def game():
             piece = Piece()
 
         pg.display.update()
-        #clock.tick(10)
 
 if __name__ == '__main__':
     game()
