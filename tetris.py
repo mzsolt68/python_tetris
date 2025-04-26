@@ -45,6 +45,9 @@ def game():
     piece = Piece()
     last_move = time.time()
 
+    # Enable key repeat functionality
+    pg.key.set_repeat(200, 50)  # 200ms delay, 50ms interval
+
     while True:
         screen.fill(colors.BLACK)
 
