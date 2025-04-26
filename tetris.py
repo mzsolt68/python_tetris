@@ -31,35 +31,48 @@ def check_keypress(board: GameBoard, piece: Piece):
                     piece.rotate_back()
             elif event.key == pg.K_DOWN:
                 piece.drop_speed = 0.03
+        elif event.type == pg.KEYUP:
+            if event.key == pg.K_DOWN:
+                piece.drop_speed = 0.5  # Reset drop speed when key is released
 
 def game():
     ''' Main game loop. '''
     pg.init()
     screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pg.display.set_caption('Tetris')
+    clock = pg.time.Clock()
     game_board = GameBoard(screen, BOARD_WIDTH, BOARD_HEIGHT)
     piece = Piece()
     last_move = time.time()
-    while True:
-        screen.fill((colors.BLACK))
 
+    while True:
+        screen.fill(colors.BLACK)
+
+        # Limit frame rate to 30 FPS
+        clock.tick(30)
+
+        # Handle events
+        check_keypress(game_board, piece)
+
+        # Move piece down based on drop speed
         if time.time() - last_move > piece.drop_speed:
             piece.move_down()
             last_move = time.time()
 
+        # Draw only the necessary parts
         game_board.draw_frame()
         game_board.draw_shape(piece)
-
         game_board.draw()
         game_board.print_score()
-        check_keypress(game_board, piece)
 
+        # Check if the piece has landed
         if not game_board.is_position_valid(piece, adj_row=1):
             game_board.update(piece)
             game_board.remove_complete_lines()
             piece = Piece()
 
-        pg.display.update()
+        # Update the display
+        pg.display.flip()  
 
 if __name__ == '__main__':
     game()
