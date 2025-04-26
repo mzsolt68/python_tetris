@@ -34,6 +34,9 @@ def check_keypress(board: GameBoard, piece: Piece):
         elif event.type == pg.KEYUP:
             if event.key == pg.K_DOWN:
                 piece.drop_speed = 0.5  # Reset drop speed when key is released
+            if event.key == pg.K_ESCAPE:
+                pg.quit()
+                sys.exit()
 
 def game():
     ''' Main game loop. '''
