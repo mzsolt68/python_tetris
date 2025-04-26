@@ -75,6 +75,19 @@ def game():
         if not game_board.is_position_valid(piece, adj_row=1):
             game_board.update(piece)
             game_board.remove_complete_lines()
+
+            # Check for game over
+            if game_board.is_game_over():
+                # Display "Game Over" message
+                font = pg.font.Font(None, 72)
+                text = font.render("Game Over", True, colors.RED)
+                screen.blit(text, (SCREEN_WIDTH // 2 - text.get_width() // 2, SCREEN_HEIGHT // 2 - text.get_height() // 2))
+                pg.display.flip()
+                pg.time.wait(3000)  # Wait for 3 seconds
+                pg.quit()
+                sys.exit()
+
+            # Create a new piece
             piece = Piece()
 
         # Update the display

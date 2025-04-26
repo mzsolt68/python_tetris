@@ -98,3 +98,10 @@ class GameBoard:
     def is_on_board(self, row, column) -> bool:
         ''' Check, if the position is on the board. '''
         return 0 <= column < self.width and row < self.height
+
+    def is_game_over(self) -> bool:
+        ''' Check if the game is over (top row is occupied). '''
+        for column in range(self.width):
+            if self.board[0][column].state != '.':
+                return True
+        return False
